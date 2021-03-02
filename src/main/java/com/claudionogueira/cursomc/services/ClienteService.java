@@ -27,7 +27,7 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository repo;
-	
+
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 
@@ -40,10 +40,10 @@ public class ClienteService {
 	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
-		obj =  repo.save(obj);
+		obj = repo.save(obj);
 		enderecoRepository.saveAll(obj.getEnderecos());
 		return obj;
-		
+
 	}
 
 	public Cliente update(Cliente obj) {
@@ -57,7 +57,7 @@ public class ClienteService {
 		try {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possível excluir um cliente que possui pedidos e/ou endereços");
+			throw new DataIntegrityException("Não é possível excluir um cliente que possui pedidos relacionados.");
 		}
 	}
 
@@ -77,9 +77,9 @@ public class ClienteService {
 	public Cliente fromDTO(ClienteNewDTO objDTO) {
 		Cliente cli = new Cliente(null, objDTO.getNome(), objDTO.getEmail(), objDTO.getCpfOuCnpj(),
 				TipoCliente.toEnum(objDTO.getTipoCliente()));
-		
+
 		Cidade cid = new Cidade(objDTO.getCidadeId(), null, null);
-		
+
 		Endereco end = new Endereco(null, objDTO.getLogradouro(), objDTO.getNumero(), objDTO.getComplemento(),
 				objDTO.getBairro(), objDTO.getCep(), cli, cid);
 
