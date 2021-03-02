@@ -21,7 +21,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 	Page<Produto> search(@Param("nome") String nome, @Param("categorias") List<Categoria> categorias,
 			Pageable pageRequest);
 
-// Both of methods do the same thing
+	// Both methods do the same thing
 
 	@Transactional(readOnly = true)
 	Page<Produto> findDistinctByNomeContainingAndCategoriasIn(String nome, List<Categoria> categorias,
